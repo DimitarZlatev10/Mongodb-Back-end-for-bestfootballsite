@@ -14,6 +14,20 @@ const getAllShirts = async (req, res, next) => {
   return res.status(200).json(shirts);
 };
 
+const getShirtById = async (req, res, next) => {
+  const id = req.params.id;
+  let shirt;
+  try {
+    shirt = await Shirt.findById(id);
+  } catch (err) {
+    return next(err);
+  }
+  if (!shirt) {
+    return res.status(500).json({ message: "Unable to find shirt" });
+  }
+  return res.status(200).json(shirt);
+};
+
 const createShirt = async (req, res, next) => {
   const { title, image, description, price, team } = req.body;
   if (
@@ -50,5 +64,6 @@ const createShirt = async (req, res, next) => {
 
 module.exports = {
   getAllShirts,
+  getShirtById,
   createShirt,
 };
