@@ -1,4 +1,5 @@
 const User = require("../model/User");
+const { hash, compare } = require("bcrypt");
 
 const getAllUsers = async (req, res, next) => {
   let users;
@@ -106,11 +107,14 @@ const register = async (req, res, next) => {
     return res.status(422).json({ message: "Invalid Data" });
   }
   let user;
+
+  const hashedPassword = await hash(password, 10);
+
   try {
     user = await new User({
       username,
       email,
-      password,
+      hashedPassword,
     });
     await user.save();
   } catch (err) {
@@ -130,7 +134,9 @@ const login = async (req, res, next) => {
     return res.status(500).json({ message: "Invalid email" });
   }
 
-  if (password != user.password) {
+  const hasMatch = await compare(password, user.hashedPassword);
+
+  if (!hasMatch) {
     return res.status(500).json({ message: "Invalid password" });
   }
 
