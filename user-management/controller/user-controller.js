@@ -149,12 +149,13 @@ const getUserInfoByEmail = async (req, res, next) => {
 };
 
 const register = async (req, res, next) => {
-  const { username, email, password, repass } = req.body;
+  const { username, email, phoneNumber, password, repass } = req.body;
   if (
     (!username && username.trim() == "") ||
     (!email && email.trim() == "") ||
     (!password && password.length < 6) ||
-    repass != password
+    repass != password ||
+    !phoneNumber
   ) {
     return res.status(422).json({ message: "Invalid Data" });
   }
@@ -166,6 +167,7 @@ const register = async (req, res, next) => {
     user = await new User({
       username,
       email,
+      phoneNumber,
       hashedPassword,
     });
     await user.save();

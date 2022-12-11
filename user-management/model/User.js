@@ -4,14 +4,28 @@ const {
   Types: { ObjectId },
 } = require("mongoose");
 
+const NUMBER_REGEX = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
 const userSchema = new Schema({
   username: {
     type: String,
     required: true,
+    unique: true,
   },
   email: {
     type: String,
     required: true,
+    unique: true,
+  },
+  phoneNumber: {
+    type: String,
+    required: true,
+    validate: {
+      validator(value) {
+        return NUMBER_REGEX.test(value);
+      },
+      message: "Phone number must be valid (ex. 000-000-0000)",
+    },
     unique: true,
   },
   hashedPassword: {
