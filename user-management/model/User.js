@@ -1,4 +1,8 @@
-const { Schema, model } = require("mongoose");
+const {
+  Schema,
+  model,
+  Types: { ObjectId },
+} = require("mongoose");
 
 const userSchema = new Schema({
   username: {
@@ -14,6 +18,11 @@ const userSchema = new Schema({
     type: String,
     required: true,
     minlength: 6,
+  },
+  wishlist: {
+    type: [ObjectId],
+    ref: "Shirt",
+    default: [],
   },
 });
 

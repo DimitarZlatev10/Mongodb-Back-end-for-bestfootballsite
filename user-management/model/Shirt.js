@@ -25,7 +25,7 @@ const shirtSchema = new Schema({
     type: String,
     required: true,
   },
-  likes: [
+  wishlist: [
     {
       type: ObjectId,
       ref: "User",

@@ -96,6 +96,17 @@ const deleteUser = async (req, res, next) => {
   return res.status(200).json({ message: "Successfully deleted user" });
 };
 
+const findUserById = async (req, res, next) => {
+  const { email } = req.body;
+  const user = await getUserByEmail(email);
+
+  if (!user) {
+    return res.status(500).json({ message: "User not found!" });
+  }
+
+  res.status(200).json(user._id);
+};
+
 const register = async (req, res, next) => {
   const { username, email, password, repass } = req.body;
   if (
@@ -131,13 +142,13 @@ const login = async (req, res, next) => {
   const user = await getUserByEmail(email);
 
   if (!user) {
-    return res.status(500).json({ message: "Invalid email" });
+    return res.status(500).json({ message: "Wrong email or password" });
   }
 
   const hasMatch = await compare(password, user.hashedPassword);
 
   if (!hasMatch) {
-    return res.status(500).json({ message: "Invalid password" });
+    return res.status(500).json({ message: "Wrong email or password" });
   }
 
   return res.status(200).json(user);
@@ -160,6 +171,7 @@ module.exports = {
   updateUser,
   deleteUser,
   getUserById,
+  findUserById,
   register,
   login,
   logout,
