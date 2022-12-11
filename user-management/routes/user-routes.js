@@ -8,6 +8,8 @@ const {
   login,
   logout,
   findUserById,
+  getUserWishlist,
+  getUserInfoByEmail,
 } = require("../controller/user-controller");
 
 const router = require("express").Router();
@@ -15,7 +17,9 @@ const router = require("express").Router();
 router.get("/", getAllUsers);
 router.get("/:id", getUserById);
 router.post("/getId", findUserById);
+router.post("/userInfo", getUserInfoByEmail);
 router.post("/", addUser);
+router.post("/userWishlist", getUserWishlist);
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);

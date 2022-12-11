@@ -1,5 +1,6 @@
 const User = require("../model/User");
 const { hash, compare } = require("bcrypt");
+const Shirt = require("../model/Shirt");
 
 const getAllUsers = async (req, res, next) => {
   let users;
@@ -96,6 +97,35 @@ const deleteUser = async (req, res, next) => {
   return res.status(200).json({ message: "Successfully deleted user" });
 };
 
+const getUserWishlist = async (req, res, next) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email: email });
+
+  if (!user) {
+    return res.status(500).json({ message: "This user doesn't exist" });
+  }
+
+  if (user.wishlist.length == 0) {
+    return res.status(200).json(user.wishlist);
+    // return res.status(200).json({ message: "User wishlist is empty" });
+  }
+
+  const wishlist = [];
+  for (const id of user.wishlist) {
+    const item = await Shirt.findById(id);
+    if (!item || item.length == 0) {
+      return res.status(500).json({ message: "Shirt not found" });
+    }
+
+    wishlist.push(item);
+  }
+
+  // const wishlist = user.wishlist.forEach(async id=> await Shirt.findById(id))
+
+  return res.status(200).json(wishlist);
+};
+
 const findUserById = async (req, res, next) => {
   const { email } = req.body;
   const user = await getUserByEmail(email);
@@ -105,6 +135,17 @@ const findUserById = async (req, res, next) => {
   }
 
   res.status(200).json(user._id);
+};
+
+const getUserInfoByEmail = async (req, res, next) => {
+  const { email } = req.body;
+  const user = await getUserByEmail(email);
+
+  if (!user) {
+    return res.status(500).json({ message: "User not found!" });
+  }
+
+  res.status(200).json(user);
 };
 
 const register = async (req, res, next) => {
@@ -171,6 +212,8 @@ module.exports = {
   updateUser,
   deleteUser,
   getUserById,
+  getUserInfoByEmail,
+  getUserWishlist,
   findUserById,
   register,
   login,

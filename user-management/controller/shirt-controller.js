@@ -16,7 +16,6 @@ const getAllShirts = async (req, res, next) => {
 };
 
 const getShirtsByTeamName = async (req, res, next) => {
-  // const {teamName} = req.body
   const teamName = req.params.teamName;
 
   let shirts;
@@ -25,10 +24,11 @@ const getShirtsByTeamName = async (req, res, next) => {
   } catch (err) {
     return next(err);
   }
-  if (!shirts) {
-    return res
-      .status(500)
-      .json({ message: "Unable to find shirts with this team name" });
+  if (shirts.length == 0) {
+    return
+    // return res
+    //   .status(500)
+    //   .json({ message: "Unable to find shirts with this team name" });
   }
 
   return res.status(200).json(shirts);
@@ -51,7 +51,7 @@ const getShirtById = async (req, res, next) => {
 const createShirt = async (req, res, next) => {
   const { title, image, description, price, team } = req.body;
   if (
-    (!title && title) ||
+    (!title && title=='') ||
     (!image && image == "") ||
     (!description && description == "") ||
     (!price && price < 0) ||
@@ -138,6 +138,8 @@ const removeFromWishlist = async (req, res, next) => {
     .status(200)
     .json({ message: "Item successfully removed from wishlist" });
 };
+
+
 
 // async function findShirtsByTeamName(teamName) {
 //   return Shirt.find({ team: teamName }).lean();
