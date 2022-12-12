@@ -25,7 +25,7 @@ const getShirtsByTeamName = async (req, res, next) => {
     return next(err);
   }
   if (shirts.length == 0) {
-    return
+    return;
     // return res
     //   .status(500)
     //   .json({ message: "Unable to find shirts with this team name" });
@@ -48,10 +48,28 @@ const getShirtById = async (req, res, next) => {
   return res.status(200).json(shirt);
 };
 
+const getMostWishlistedShirts = async (req, res, next) => {
+  let shirts = await Shirt.find();
+
+  let mostWishlisted = shirts.filter((shirt) => shirt.wishlist.length > 0);
+
+  let sortedWishlist = mostWishlisted.sort((p1, p2) =>
+    p1.wishlist.length < p2.wishlist.length
+      ? 1
+      : p1.wishlist.length > p2.wishlist.length
+      ? -1
+      : 0
+  );
+
+  let topTenWishlisted = sortedWishlist.slice(0,10)
+
+  return res.status(200).json(topTenWishlisted);
+};
+
 const createShirt = async (req, res, next) => {
   const { title, image, description, price, team } = req.body;
   if (
-    (!title && title=='') ||
+    (!title && title == "") ||
     (!image && image == "") ||
     (!description && description == "") ||
     (!price && price < 0) ||
@@ -139,8 +157,6 @@ const removeFromWishlist = async (req, res, next) => {
     .json({ message: "Item successfully removed from wishlist" });
 };
 
-
-
 // async function findShirtsByTeamName(teamName) {
 //   return Shirt.find({ team: teamName }).lean();
 // }
@@ -152,4 +168,5 @@ module.exports = {
   addToWishlist,
   removeFromWishlist,
   getShirtsByTeamName,
+  getMostWishlistedShirts,
 };

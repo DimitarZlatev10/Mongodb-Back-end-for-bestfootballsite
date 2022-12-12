@@ -5,11 +5,13 @@ const {
   addToWishlist,
   getShirtsByTeamName,
   removeFromWishlist,
+  getMostWishlistedShirts,
 } = require("../controller/shirt-controller");
 
 const router = require("express").Router();
 
-router.get("/", getAllShirts);
+router.get("/all", getAllShirts);
+router.get("/mostWishlisted", getMostWishlistedShirts);
 router.get("/:id", getShirtById);
 router.get("/teamName/:teamName", getShirtsByTeamName);
 router.post("/", createShirt);
