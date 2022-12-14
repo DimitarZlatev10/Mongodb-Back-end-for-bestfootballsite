@@ -61,19 +61,21 @@ const getMostWishlistedShirts = async (req, res, next) => {
       : 0
   );
 
-  let topTenWishlisted = sortedWishlist.slice(0,10)
+  let topTenWishlisted = sortedWishlist.slice(0, 10);
 
   return res.status(200).json(topTenWishlisted);
 };
 
 const createShirt = async (req, res, next) => {
-  const { title, image, description, price, team } = req.body;
+  const { title, image, description, price, team, inStock } = req.body;
   if (
     (!title && title == "") ||
     (!image && image == "") ||
     (!description && description == "") ||
     (!price && price < 0) ||
-    (!team && team == "")
+    (!team && team == "") ||
+    !inStock ||
+    inStock.length < 0
   ) {
     return res.status(422).json({ message: "Invalid Data" });
   }
@@ -87,6 +89,7 @@ const createShirt = async (req, res, next) => {
       description,
       price,
       team,
+      inStock,
     });
 
     shirt = await shirt.save();
@@ -156,10 +159,6 @@ const removeFromWishlist = async (req, res, next) => {
     .status(200)
     .json({ message: "Item successfully removed from wishlist" });
 };
-
-// async function findShirtsByTeamName(teamName) {
-//   return Shirt.find({ team: teamName }).lean();
-// }
 
 module.exports = {
   getAllShirts,

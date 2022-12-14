@@ -25,6 +25,10 @@ const shirtSchema = new Schema({
     type: String,
     required: true,
   },
+  inStock: {
+    type: Number,
+    required: true,
+  },
   wishlist: [
     {
       type: ObjectId,

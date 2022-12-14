@@ -17,6 +17,10 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
+  balance: {
+    type: Number,
+    default: 0,
+  },
   phoneNumber: {
     type: String,
     required: true,
@@ -36,6 +40,15 @@ const userSchema = new Schema({
   wishlist: {
     type: [ObjectId],
     ref: "Shirt",
+    default: [],
+  },
+  transactions: {
+    type: [String],
+    ref: "Shirt",
+    default: [],
+  },
+  creditCardInfo: {
+    type: Array,
     default: [],
   },
 });

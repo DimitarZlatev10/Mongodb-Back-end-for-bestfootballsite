@@ -10,6 +10,8 @@ const {
   findUserById,
   getUserWishlist,
   getUserInfoByEmail,
+  addCardInfo,
+  addAmount,
 } = require("../controller/user-controller");
 
 const router = require("express").Router();
@@ -20,6 +22,8 @@ router.post("/getId", findUserById);
 router.post("/userInfo", getUserInfoByEmail);
 router.post("/", addUser);
 router.post("/userWishlist", getUserWishlist);
+router.post("/addCard", addCardInfo);
+router.post("/addAmount", addAmount);
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);

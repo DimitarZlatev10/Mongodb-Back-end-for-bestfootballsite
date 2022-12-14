@@ -148,8 +148,45 @@ const getUserInfoByEmail = async (req, res, next) => {
   res.status(200).json(user);
 };
 
+const addCardInfo = async (req, res, next) => {
+  const { id, fullName, pin } = req.body;
+  const user = await User.findById(id);
+
+  if (!user) {
+    return res.status(500).json({ message: "User not found" });
+  }
+
+  user.creditCardInfo = {
+    fullName: fullName,
+    pin: pin,
+  };
+
+  await user.save();
+
+  return res.status(200).json(user);
+};
+
+const addAmount = async (req, res, next) => {
+  const { id, amount } = req.body;
+  const user = await User.findById(id);
+
+  if (!user) {
+    return res.status(500).json({ message: "User not found" });
+  }
+
+  user.balance += amount;
+
+  const message = `You have successfully added ${amount}$ to your balance!`;
+
+  user.transactions.push(message);
+
+  await user.save();
+
+  return res.status(200).json({ message: message });
+};
+
 const register = async (req, res, next) => {
-  const { username, email, phoneNumber, password, repass } = req.body;
+  const { username, email, balance, phoneNumber, password, repass } = req.body;
   if (
     (!username && username.trim() == "") ||
     (!email && email.trim() == "") ||
@@ -167,6 +204,7 @@ const register = async (req, res, next) => {
     user = await new User({
       username,
       email,
+      balance,
       phoneNumber,
       hashedPassword,
     });
@@ -217,6 +255,8 @@ module.exports = {
   getUserInfoByEmail,
   getUserWishlist,
   findUserById,
+  addCardInfo,
+  addAmount,
   register,
   login,
   logout,
