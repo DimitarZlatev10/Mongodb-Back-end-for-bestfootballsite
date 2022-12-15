@@ -13,12 +13,13 @@ title(string) - this is the product title
 
 image(string) - this is the product image you can copy any image with copy image address and paste it 
 
-description(string) - this is the item description
+description(string) - this is the product description
 
-price(number) - this is the price of the item
+price(number) - this is the price of the product
 
 team(string)- this is the team name of the product and it MUST be named right, for example - (Manchester City , Manchester United , Liverpool) 
 if you type a wrong team name , for example -  (Man City, Man Utd ,Barca) the product won't show
+valid team names = (Manchester City,Manchester United,Arsenal,Chelsea,Liverpool)
 
 inStock (number) - this is how much products will be in stock 
 
@@ -33,3 +34,4 @@ Paste this for exampe :
     "inStock" : 100
 }
 
+to view the product go to the navigation bar - products - english league - Manchester United 
