@@ -6,6 +6,7 @@ const {
   getShirtsByTeamName,
   removeFromWishlist,
   getMostWishlistedShirts,
+  buyProduct,
 } = require("../controller/shirt-controller");
 
 const router = require("express").Router();
@@ -17,5 +18,6 @@ router.get("/teamName/:teamName", getShirtsByTeamName);
 router.post("/", createShirt);
 router.post("/wishlist", addToWishlist);
 router.post("/removeWishlist", removeFromWishlist);
+router.post("/buyProduct", buyProduct);
 
 module.exports = router;

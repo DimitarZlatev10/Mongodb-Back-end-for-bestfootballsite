@@ -160,6 +160,34 @@ const removeFromWishlist = async (req, res, next) => {
     .json({ message: "Item successfully removed from wishlist" });
 };
 
+const buyProduct = async (req, res, next) => {
+  const { userId, shirtId, quantity } = req.body;
+
+  const user = await User.findById(userId);
+  const shirt = await Shirt.findById(shirtId);
+
+  if (!user) {
+    return res.status(500).json({ message: "User not found" });
+  }
+
+  if (!shirt) {
+    return res.status(500).json({ message: "Product not found" });
+  }
+
+  const message = `Successfully purchased ${shirt.title} for $${
+    shirt.price * quantity
+  }`;
+
+  shirt.inStock -= quantity;
+  user.balance -= shirt.price * quantity;
+  user.transactions.push(message);
+
+  await shirt.save();
+  await user.save();
+
+  return res.status(200).json({ message: message });
+};
+
 module.exports = {
   getAllShirts,
   getShirtById,
@@ -168,4 +196,5 @@ module.exports = {
   removeFromWishlist,
   getShirtsByTeamName,
   getMostWishlistedShirts,
+  buyProduct,
 };
