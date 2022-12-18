@@ -186,16 +186,19 @@ const addAmount = async (req, res, next) => {
 };
 
 const register = async (req, res, next) => {
-  const { username, email, balance, password, repass } = req.body;
-  // if (
-  //   (!username && username.trim() == "") ||
-  //   (!email && email.trim() == "") ||
-  //   (!password && password.length < 6) ||
-  //   repass != password ||
-  //   !phoneNumber
-  // ) {
-  //   return res.status(422).json({ message: "Invalid Data" });
-  // }
+  const { username, email, balance, password } = req.body;
+
+  const existingUsername = await User.findOne({ username: username });
+  const existingEmail = await User.findOne({ email: email });
+
+  if (existingUsername) {
+    return res.status(500).json({ message: "This username is taken" });
+  }
+
+  if (existingEmail) {
+    return res.status(500).json({ message: "This email is taken" });
+  }
+
   let user;
 
   const hashedPassword = await hash(password, 10);

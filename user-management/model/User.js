@@ -4,18 +4,15 @@ const {
   Types: { ObjectId },
 } = require("mongoose");
 
-const NUMBER_REGEX = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
 const userSchema = new Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true,
   },
   balance: {
     type: Number,
