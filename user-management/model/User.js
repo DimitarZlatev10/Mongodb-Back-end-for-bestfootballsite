@@ -21,17 +21,6 @@ const userSchema = new Schema({
     type: Number,
     default: 0,
   },
-  phoneNumber: {
-    type: String,
-    required: true,
-    validate: {
-      validator(value) {
-        return NUMBER_REGEX.test(value);
-      },
-      message: "Phone number must be valid (ex. 000-000-0000)",
-    },
-    unique: true,
-  },
   hashedPassword: {
     type: String,
     required: true,

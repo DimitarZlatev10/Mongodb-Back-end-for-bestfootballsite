@@ -186,16 +186,16 @@ const addAmount = async (req, res, next) => {
 };
 
 const register = async (req, res, next) => {
-  const { username, email, balance, phoneNumber, password, repass } = req.body;
-  if (
-    (!username && username.trim() == "") ||
-    (!email && email.trim() == "") ||
-    (!password && password.length < 6) ||
-    repass != password ||
-    !phoneNumber
-  ) {
-    return res.status(422).json({ message: "Invalid Data" });
-  }
+  const { username, email, balance, password, repass } = req.body;
+  // if (
+  //   (!username && username.trim() == "") ||
+  //   (!email && email.trim() == "") ||
+  //   (!password && password.length < 6) ||
+  //   repass != password ||
+  //   !phoneNumber
+  // ) {
+  //   return res.status(422).json({ message: "Invalid Data" });
+  // }
   let user;
 
   const hashedPassword = await hash(password, 10);
@@ -205,7 +205,6 @@ const register = async (req, res, next) => {
       username,
       email,
       balance,
-      phoneNumber,
       hashedPassword,
     });
     await user.save();

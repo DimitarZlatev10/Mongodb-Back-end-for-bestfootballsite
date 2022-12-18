@@ -174,7 +174,7 @@ const buyProduct = async (req, res, next) => {
     return res.status(500).json({ message: "Product not found" });
   }
 
-  const message = `Successfully purchased ${shirt.title} for $${
+  const message = `Successfully purchased ${quantity} ${shirt.title} for $${
     shirt.price * quantity
   }`;
 
