@@ -142,7 +142,8 @@ const getUserInfoByEmail = async (req, res, next) => {
   const user = await getUserByEmail(email);
 
   if (!user) {
-    return res.status(500).json({ message: "User not found!" });
+    return
+    //  res.status(500).json({ message: "User not found!" });
   }
 
   res.status(200).json(user);
@@ -263,3 +264,4 @@ module.exports = {
   login,
   logout,
 };
+
